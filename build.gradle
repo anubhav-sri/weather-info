@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'com.tenara'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+
+test {
+    useJUnitPlatform()
+}
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.6.RELEASE'
+    testCompile 'org.junit.jupiter:junit-jupiter:5.6.2'
+    testCompile 'org.mockito:mockito-junit-jupiter:2.23.0'
+
+}
