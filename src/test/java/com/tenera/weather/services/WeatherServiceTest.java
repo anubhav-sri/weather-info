@@ -8,13 +8,13 @@ import com.tenera.weather.services.clients.WeatherDataClient;
 import com.tenera.weather.services.clients.models.ExternalWeather;
 import com.tenera.weather.services.clients.models.MainContent;
 import com.tenera.weather.services.clients.models.WeatherCondition;
+import com.tenera.weather.services.clients.models.WeatherInfoHistoryDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -81,6 +81,20 @@ class WeatherServiceTest {
 
         assertThat(actualWeatherHistory.getWeatherInfos()).hasSameElementsAs(buildWeatherHistory().getWeatherInfos());
         assertThat(actualWeatherHistory).isEqualToIgnoringGivenFields(buildWeatherHistory(), "weatherInfos");
+
+    }
+
+    @Test
+    void shouldGetTheHistoryOfLastFiveCallsToWeatherInfoForACity() {
+        WeatherHistory expectedHistory = buildWeatherHistory();
+
+        when(weatherHistory.findById("Berlin")).thenReturn(Optional.of(expectedHistory));
+
+        WeatherInfoHistoryDetails weatherInfo = weatherService.getWeatherInfoHistory("Berlin");
+
+        assertThat(weatherInfo).isEqualTo(new WeatherInfoHistoryDetails(BigDecimal.valueOf(1.0),
+                BigDecimal.valueOf(10.0),
+                List.of(buildWeatherInfo())));
 
     }
 
