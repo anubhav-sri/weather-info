@@ -33,7 +33,7 @@ class WeatherServiceTest {
     @Test
     void shouldGetWeatherDataFromTheClient() {
         when(weatherDataClient.getWeatherCondition("Berlin")).thenReturn(buildWeatherCondition());
-        WeatherInfo weatherInfo = weatherService.getWeatherInformationForCity("Berlin");
+        WeatherInfo weatherInfo = weatherService.getWeatherInformationForLocation("Berlin");
 
         assertThat(weatherInfo).isEqualTo(new WeatherInfo(BigDecimal.ONE, BigDecimal.TEN, WeatherType.RAINY));
     }

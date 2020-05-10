@@ -2,8 +2,11 @@ package com.tenera.weather.services.clients;
 
 import com.tenera.weather.exceptions.ExternalServiceException;
 import com.tenera.weather.services.clients.models.WeatherCondition;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Component
 public class WeatherDataClient {
     private static final String APP_ID_KEY = "appid";
     private static final String QUERY_KEY = "q";
@@ -11,9 +14,11 @@ public class WeatherDataClient {
     private String weatherConditionEndPoint;
     private String apiKey;
 
-    public WeatherDataClient(String hostName, String weatherConditionEndPoint, String apiKey) {
+    public WeatherDataClient(@Value("${external-weather.hostName}") String hostName,
+                             @Value("${external-weather.currentEndpoint}") String currentWeatherEndPoint,
+                             @Value("${external-weather.apiKey}") String apiKey) {
         this.webClient = WebClient.create(hostName);
-        this.weatherConditionEndPoint = weatherConditionEndPoint;
+        this.weatherConditionEndPoint = currentWeatherEndPoint;
         this.apiKey = apiKey;
     }
 

@@ -1,0 +1,49 @@
+package com.tenera.weather.controllers;
+
+import com.tenera.weather.services.clients.WeatherDataClient;
+import com.tenera.weather.services.clients.models.ExternalWeather;
+import com.tenera.weather.services.clients.models.MainContent;
+import com.tenera.weather.services.clients.models.WeatherCondition;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class WeatherInfoControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private WeatherDataClient weatherDataClient;
+
+    @Test
+    void shouldRespondWith200StatusAndValidWeatherResponseForACity() throws Exception {
+        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.temp").value("1"))
+                .andExpect(jsonPath("$.pressure").value("10"))
+                .andExpect(jsonPath("$.umbrella").value(true));
+
+
+    }
+    private WeatherCondition buildWeatherCondition() {
+        return WeatherCondition.builder()
+                .mainContent(new MainContent(BigDecimal.ONE, BigDecimal.TEN))
+                .weather(List.of(new ExternalWeather("Rainy")))
+                .build();
+    }
+}

@@ -2,7 +2,9 @@ package com.tenera.weather.models;
 
 public enum WeatherType {
     RAINY("Rainy"),
-    CLEAR("Clear");
+    CLEAR("Clear"),
+    THUNDERSTORM("Thunderstorm"),
+    DRIZZLE("Drizzle");
 
     private String value;
 
