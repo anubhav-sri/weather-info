@@ -1,5 +1,6 @@
 package com.tenera.weather.controllers;
 
+import com.tenera.weather.MongoDBIntegrationTests;
 import com.tenera.weather.services.clients.WeatherDataClient;
 import com.tenera.weather.services.clients.models.ExternalWeather;
 import com.tenera.weather.services.clients.models.MainContent;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class WeatherInfoControllerTest {
+class WeatherInfoControllerTest extends MongoDBIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,6 +41,7 @@ class WeatherInfoControllerTest {
 
 
     }
+
     private WeatherCondition buildWeatherCondition() {
         return WeatherCondition.builder()
                 .mainContent(new MainContent(BigDecimal.ONE, BigDecimal.TEN))
