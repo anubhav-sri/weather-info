@@ -1,8 +1,10 @@
 plugins {
     id 'java'
+    id("application")
+    id "io.freefair.lombok" version "5.0.1"
 }
 
-group 'com.tenara'
+group 'com.tenera'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
@@ -11,13 +13,24 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainClassName = "com.tenera.Applications"
+}
 
 test {
     useJUnitPlatform()
 }
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.6.RELEASE'
-    testCompile 'org.junit.jupiter:junit-jupiter:5.6.2'
-    testCompile 'org.mockito:mockito-junit-jupiter:2.23.0'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.2.6.RELEASE'
+
+    testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '2.2.2.RELEASE'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:2.23.0'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.0'
+    testImplementation('org.springframework.boot:spring-boot-starter-test:2.2.6.RELEASE') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
 
 }
