@@ -4,7 +4,7 @@ import com.tenera.weather.models.WeatherHistory;
 import com.tenera.weather.models.WeatherInfo;
 import com.tenera.weather.repositories.WeatherDataRepository;
 import com.tenera.weather.services.clients.WeatherDataClient;
-import com.tenera.weather.services.clients.models.WeatherInfoHistoryDetails;
+import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -8,7 +8,7 @@ import com.tenera.weather.services.clients.WeatherDataClient;
 import com.tenera.weather.services.clients.models.ExternalWeather;
 import com.tenera.weather.services.clients.models.MainContent;
 import com.tenera.weather.services.clients.models.WeatherCondition;
-import com.tenera.weather.services.clients.models.WeatherInfoHistoryDetails;
+import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

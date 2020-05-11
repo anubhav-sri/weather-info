@@ -5,15 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.Collection;
 import java.util.Queue;
 
 @Getter
 @EqualsAndHashCode
 public class WeatherHistory {
+    @Id
+    @Indexed
     private String cityName;
     private String state;
-    private Queue<WeatherInfo> weatherInfos;
+    private Collection<WeatherInfo> weatherInfos;
 
     public WeatherHistory(String cityName, String state) {
         this.cityName = cityName;

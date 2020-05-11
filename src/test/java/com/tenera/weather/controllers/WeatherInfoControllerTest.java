@@ -42,6 +42,23 @@ class WeatherInfoControllerTest extends MongoDBIntegrationTests {
 
     }
 
+    @Test
+    void shouldRespondWith200StatusAndHistoreyBasedOnPreviousCalls() throws Exception {
+        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/history?location=berlin"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.avg_temp").value(1.0))
+                .andExpect(jsonPath("$.avg_pressure").value(10.0))
+                .andExpect(jsonPath("$.history[0].temp").value(1.0))
+                .andExpect(jsonPath("$.history[0].pressure").value(10.0))
+                .andExpect(jsonPath("$.history[0].umbrella").value(true));
+
+
+    }
+
     private WeatherCondition buildWeatherCondition() {
         return WeatherCondition.builder()
                 .mainContent(new MainContent(BigDecimal.ONE, BigDecimal.TEN))

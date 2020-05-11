@@ -1,5 +1,6 @@
-package com.tenera.weather.services.clients.models;
+package com.tenera.weather.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tenera.weather.models.WeatherInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +15,12 @@ import java.util.List;
 @Builder
 @Getter
 @EqualsAndHashCode
-public class WeatherInfoHistoryDetails {
+public class WeatherInfoHistoryDetailsDto {
+    @JsonProperty("avg_temp")
     private BigDecimal averageTemperature;
+    @JsonProperty("avg_pressure")
     private BigDecimal averagePressure;
-    private List<WeatherInfo> weatherInfos;
+    @JsonProperty("history")
+    private List<WeatherInfoDTO> weatherInfos;
 }
 
