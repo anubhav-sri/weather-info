@@ -32,7 +32,7 @@ class WeatherInfoControllerTest extends MongoDBIntegrationTests {
 
     @Test
     void shouldRespondWith200StatusAndValidWeatherResponseForACity() throws Exception {
-        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition());
+        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition(BigDecimal.ONE, BigDecimal.TEN));
         mockMvc.perform(get("/current?location=berlin"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.temp").value("1"))
@@ -44,24 +44,34 @@ class WeatherInfoControllerTest extends MongoDBIntegrationTests {
 
     @Test
     void shouldRespondWith200StatusAndHistoreyBasedOnPreviousCalls() throws Exception {
-        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition());
+        when(weatherDataClient.getWeatherCondition("berlin")).thenReturn(buildWeatherCondition(BigDecimal.ONE,
+                BigDecimal.TEN), buildWeatherCondition(BigDecimal.valueOf(23.0), BigDecimal.valueOf(1234)));
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/current?location=berlin"))
+                .andExpect(status().isOk());
         mockMvc.perform(get("/current?location=berlin"))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/history?location=berlin"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.avg_temp").value(1.0))
-                .andExpect(jsonPath("$.avg_pressure").value(10.0))
-                .andExpect(jsonPath("$.history[0].temp").value(1.0))
-                .andExpect(jsonPath("$.history[0].pressure").value(10.0))
-                .andExpect(jsonPath("$.history[0].umbrella").value(true));
+                .andExpect(jsonPath("$.avg_temp").value(23.0))
+                .andExpect(jsonPath("$.avg_pressure").value(1234.0))
+                .andExpect(jsonPath("$.history").isArray())
+                .andExpect(jsonPath("$.history.length()").value(5));
 
 
     }
 
-    private WeatherCondition buildWeatherCondition() {
+    private WeatherCondition buildWeatherCondition(BigDecimal temperature, BigDecimal pressure) {
         return WeatherCondition.builder()
-                .mainContent(new MainContent(BigDecimal.ONE, BigDecimal.TEN))
+                .mainContent(new MainContent(temperature, pressure))
                 .weather(List.of(new ExternalWeather("Rainy")))
                 .build();
     }
