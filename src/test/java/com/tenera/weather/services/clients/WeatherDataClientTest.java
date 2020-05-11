@@ -37,9 +37,10 @@ class WeatherDataClientTest {
 
     @Test
     void shouldGetTheLatestWeatherConditionsFromOpenWeatherForACity() throws IOException {
-        stubFor(WireMock.get("/data/2.5/weather?q=Berlin&appid=app-id")
+        stubFor(WireMock.get("/data/2.5/weather?q=Berlin&appid=app-id&units=metric")
                 .withQueryParam("q", new EqualToPattern("Berlin"))
                 .withQueryParam("appid", new EqualToPattern("app-id"))
+                .withQueryParam("units", new EqualToPattern("metric"))
                 .willReturn(aResponse()
                         .withHeader(CONTENT_TYPE, ContentType.APPLICATION_JSON.toString())
                         .withBody(this.getClass().getClassLoader().getResourceAsStream("response.json").readAllBytes())
@@ -51,9 +52,10 @@ class WeatherDataClientTest {
 
     @Test
     void shouldThrowTheExternalServiceExceptionWhenHttp5xx() {
-        stubFor(WireMock.get("/data/2.5/weather?q=Berlin&appid=app-id")
+        stubFor(WireMock.get("/data/2.5/weather?q=Berlin&appid=app-id&units=metric")
                 .withQueryParam("q", new EqualToPattern("Berlin"))
                 .withQueryParam("appid", new EqualToPattern("app-id"))
+                .withQueryParam("units", new EqualToPattern("metric"))
                 .willReturn(aResponse()
                         .withStatus(503)
                 ));

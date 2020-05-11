@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WeatherDataClient {
     private static final String APP_ID_KEY = "appid";
     private static final String QUERY_KEY = "q";
+    private static final String UNITS_KEY = "units";
+    private static final String METRIC_UNIT = "metric";
     private final WebClient webClient;
     private String weatherConditionEndPoint;
     private String apiKey;
@@ -28,6 +30,7 @@ public class WeatherDataClient {
                         .path(weatherConditionEndPoint)
                         .queryParam(QUERY_KEY, cityName)
                         .queryParam(APP_ID_KEY, apiKey)
+                        .queryParam(UNITS_KEY, METRIC_UNIT)
                         .build())
                 .exchange()
                 .flatMap(clientResponse -> {
