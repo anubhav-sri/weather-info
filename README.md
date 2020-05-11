@@ -15,8 +15,8 @@
 `./gradlew run`
 The application runs on port 8080. Can be accessed via http://localhost:8080/
 
-To get the current weather: http://localhost:8080/current?location=<city_name>
-To get the history: http://localhost:8080/history?location=<city_name>
+* To get the current weather: http://localhost:8080/current?location=<city_name>
+* To get the history: http://localhost:8080/history?location=<city_name>
 
 # Areas of Improvement
 The application doesn't handle the states for history. Which means, Berlin would be treated same as Berlin,de. In case there comes another city the name of Berlin in another country, it would still be treated as Berlin,De may be. Given time it could be fixed.
