@@ -1,29 +1,22 @@
 package com.tenera.weather.config;
 
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.internal.MongoClientImpl;
+import com.mongodb.MongoClient;
+import cz.jirutka.spring.embedmongo.EmbeddedMongoFactoryBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.util.List;
+import java.io.IOException;
 
 @Configuration
-public class MongoConfig extends AbstractMongoClientConfiguration {
+public class MongoConfig {
 
-    @Override
-    protected String getDatabaseName() {
-        return "test";
-    }
-
-    @Override
-    public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://127.0.0.1:27017");
-    }
-
-    @Override
-    protected List<String> getMappingBasePackages() {
-        return List.of("org.tenera");
+    @Bean
+    public MongoTemplate mongoTemplate() throws IOException {
+        EmbeddedMongoFactoryBean mongo = new EmbeddedMongoFactoryBean();
+        mongo.setBindIp("localhost");
+        MongoClient mongoClient = mongo.getObject();
+        // the library seems to be outdated, we can fix this later.
+        return new MongoTemplate(mongoClient, "test");
     }
 }
