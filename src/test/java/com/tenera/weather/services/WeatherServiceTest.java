@@ -2,13 +2,13 @@ package com.tenera.weather.services;
 
 import com.tenera.weather.models.WeatherHistory;
 import com.tenera.weather.models.WeatherInfo;
+import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import com.tenera.weather.models.WeatherType;
 import com.tenera.weather.repositories.WeatherDataRepository;
 import com.tenera.weather.services.clients.WeatherDataClient;
 import com.tenera.weather.services.clients.models.ExternalWeather;
 import com.tenera.weather.services.clients.models.MainContent;
 import com.tenera.weather.services.clients.models.WeatherCondition;
-import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,8 +49,8 @@ class WeatherServiceTest {
     @Test
     void shouldSaveTheWeatherDataFromRetrievedForACityWhenNoPreviousHistory() {
         when(weatherHistory.findById("Berlin")).thenReturn(Optional.empty());
-        when(weatherDataClient.getWeatherCondition("Berlin")).thenReturn(buildWeatherCondition());
-        WeatherInfo weatherInfo = weatherService.getWeatherInformationForLocation("Berlin");
+        when(weatherDataClient.getWeatherCondition("Berlin,de")).thenReturn(buildWeatherCondition());
+        WeatherInfo weatherInfo = weatherService.getWeatherInformationForLocation("Berlin,de");
 
         assertThat(weatherInfo).isEqualTo(buildWeatherInfo());
         ArgumentCaptor<WeatherHistory> whArgsCaptor = ArgumentCaptor.forClass(WeatherHistory.class);
@@ -104,7 +104,7 @@ class WeatherServiceTest {
     }
 
     private WeatherHistory buildWeatherHistory() {
-        WeatherHistory history = new WeatherHistory("Berlin", "");
+        WeatherHistory history = new WeatherHistory("Berlin");
         history.addInfo(buildWeatherInfo());
         return history;
     }

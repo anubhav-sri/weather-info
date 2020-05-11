@@ -27,6 +27,14 @@ public class WeatherInfoController {
 
     @GetMapping(value = "/history")
     public WeatherInfoHistoryDetailsDto getHistory(@RequestParam("location") String location) {
-        return mapWeatherInfoDetailsToDTO(weatherService.getWeatherInfoHistory(location));
+        extractCity(location);
+        return mapWeatherInfoDetailsToDTO(weatherService.getWeatherInfoHistory(extractCity(location)));
+    }
+
+    private String extractCity(String location) {
+        if (location.contains(",")) {
+            return location.trim().split(",")[0];
+        }
+        return location.trim();
     }
 }

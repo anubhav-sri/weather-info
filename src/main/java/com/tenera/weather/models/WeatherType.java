@@ -4,7 +4,8 @@ public enum WeatherType {
     RAINY("Rainy"),
     CLEAR("Clear"),
     THUNDERSTORM("Thunderstorm"),
-    DRIZZLE("Drizzle");
+    DRIZZLE("Drizzle"),
+    CLOUDS("Clouds");
 
     private String value;
 
@@ -17,13 +18,13 @@ public enum WeatherType {
         return this.value;
     }
 
-    public static WeatherType valueOfWeather(String value){
+    public static WeatherType valueOfWeather(String value) {
         for (WeatherType e : values()) {
             if (e.value.equals(value)) {
                 return e;
             }
         }
-        return null;
+        throw new IllegalArgumentException(value + " is not valid");
 
     }
 }

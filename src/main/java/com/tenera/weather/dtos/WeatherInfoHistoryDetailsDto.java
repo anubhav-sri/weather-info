@@ -1,7 +1,6 @@
 package com.tenera.weather.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tenera.weather.models.WeatherInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

@@ -2,9 +2,9 @@ package com.tenera.weather.services;
 
 import com.tenera.weather.models.WeatherHistory;
 import com.tenera.weather.models.WeatherInfo;
+import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import com.tenera.weather.repositories.WeatherDataRepository;
 import com.tenera.weather.services.clients.WeatherDataClient;
-import com.tenera.weather.models.WeatherInfoHistoryDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,15 @@ public class WeatherService {
         this.weatherDataRepository = weatherDataRepository;
     }
 
-    public WeatherInfo getWeatherInformationForLocation(String cityName) {
-        WeatherInfo weatherInfo = mapWeatherConditionToWeatherInfo(weatherDataClient.getWeatherCondition(cityName));
-
+    public WeatherInfo getWeatherInformationForLocation(String location) {
+        WeatherInfo weatherInfo = mapWeatherConditionToWeatherInfo(weatherDataClient.getWeatherCondition(location));
+        String cityName = location.split(",")[0];
         weatherDataRepository.findById(cityName)
                 .ifPresentOrElse(wh -> {
                     wh.getWeatherInfos().add(weatherInfo);
                     weatherDataRepository.save(wh);
                 }, () -> {
-                    WeatherHistory newHistory = new WeatherHistory(cityName, "");
+                    WeatherHistory newHistory = new WeatherHistory(cityName);
                     newHistory.addInfo(weatherInfo);
                     weatherDataRepository.save(newHistory);
                 });

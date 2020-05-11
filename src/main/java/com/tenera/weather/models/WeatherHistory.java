@@ -10,13 +10,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 public class WeatherHistory {
     @Id
     @Indexed
-    private String cityName;
-    private String state;
+    private String location;
     private LimitedSelfHealingListFor5Elements<WeatherInfo> weatherInfos;
 
-    public WeatherHistory(String cityName, String state) {
-        this.cityName = cityName;
-        this.state = state;
+    public WeatherHistory(String location) {
+        this.location = location;
         this.weatherInfos = new LimitedSelfHealingListFor5Elements<>();
     }
 
